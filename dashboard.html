@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Gestión de Mantenimiento</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="apple-touch-icon" href="icon-192.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+    <div class="container">
+        <h1>Dashboard de Mantenimiento</h1>
+        
+        <div class="estado-conexion">
+            <span id="estadoConexion">🌐 Verificando conexión...</span>
+        </div>
+        
+        <div class="dashboard-grid">
+            <div class="dashboard-card" onclick="window.location.href='index.html'">
+                <div class="dashboard-icon">🏗️</div>
+                <h3>Gestión de Maquinarias</h3>
+                <p>Administrar maquinarias pesadas</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='mantenimientos.html'">
+                <div class="dashboard-icon">🔧</div>
+                <h3>Mantenimientos</h3>
+                <p>Registrar y gestionar mantenimientos</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='programacion.html'">
+                <div class="dashboard-icon">📅</div>
+                <h3>Programación de Mantenimientos</h3>
+                <p>Programar mantenimientos futuros</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='horometros.html'">
+                <div class="dashboard-icon">⏱️</div>
+                <h3>Horómetros</h3>
+                <p>Control de horas de trabajo</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='movimiento.html'">
+                <div class="dashboard-icon">📦</div>
+                <h3>Movimiento de Piezas/Repuestos</h3>
+                <p>Gestionar entradas y salidas</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='reportes.html'">
+                <div class="dashboard-icon">📊</div>
+                <h3>Reportes y Análisis</h3>
+                <p>Generar informes y estadísticas</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='inventario.html'">
+                <div class="dashboard-icon">🗂️</div>
+                <h3>Inventario y Repuestos</h3>
+                <p>Control de stock y repuestos</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='personal.html'">
+                <div class="dashboard-icon">👥</div>
+                <h3>Personal y Técnicos</h3>
+                <p>Gestionar personal técnico</p>
+            </div>
+            
+            <div class="dashboard-card" onclick="window.location.href='configuracion.html'">
+                <div class="dashboard-icon">⚙️</div>
+                <h3>Configuración del Sistema</h3>
+                <p>Ajustes y configuraciones</p>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="google-apps-script.js"></script>
+    <script>
+        // Mostrar estado de conexión
+        function actualizarEstadoConexion() {
+            const estado = document.getElementById('estadoConexion');
+            if (navigator.onLine) {
+                estado.innerHTML = '🌐 <span class="online">Conectado</span>';
+            } else {
+                estado.innerHTML = '📱 <span class="offline">Sin conexión</span>';
+            }
+        }
+        
+        actualizarEstadoConexion();
+        setInterval(actualizarEstadoConexion, 5000);
+    </script>
+</body>
+</html>

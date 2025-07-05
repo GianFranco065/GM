@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Mantenimiento</title>
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4CAF50">
+    <link rel="apple-touch-icon" href="icon-192.svg">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Mantenimiento</h1>
+        
+        <div class="estado-conexion">
+            <span id="estadoConexion">🌐 Verificando conexión...</span>
+        </div>
+        
+        <button id="btnDashboard" class="btn-primary" onclick="window.location.href='dashboard.html'">
+            🏠 Dashboard Principal
+        </button>
+        
+        <button id="btnAgregar" class="btn-primary" onclick="abrirModalAgregar()">
+            ➕ Agregar Maquinaria
+        </button>
+        
+        <button id="btnSincronizar" class="btn-sync" onclick="forzarSincronizacion()">
+            🔄 Sincronizar Pendientes
+        </button>
+        
+        <button id="btnInstalar" class="btn-install" onclick="instalarApp()" style="display: none;">
+            📱 Instalar App
+        </button>
+        
+        <div id="mensaje" class="mensaje"></div>
+    </div>
+    
+    <div class="registros-container">
+        <h2>Maquinarias Registradas</h2>
+        <div id="listaRegistros">
+            <p class="no-registros">Cargando registros...</p>
+        </div>
+    </div>
+
+    <!-- Modal para Agregar/Editar Maquinaria -->
+    <div id="modalMaquinaria" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitulo">Agregar Maquinaria</h3>
+                <span class="close" onclick="cerrarModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formMaquinaria">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="nombre">Nombre/Identificación:</label>
+                            <input type="text" id="nombre" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="tipo">Tipo:</label>
+                            <select id="tipo" required>
+                                <option value="">Seleccionar tipo</option>
+                                <option value="Excavadora">Excavadora</option>
+                                <option value="Bulldozer">Bulldozer</option>
+                                <option value="Cargador">Cargador</option>
+                                <option value="Grúa">Grúa</option>
+                                <option value="Retroexcavadora">Retroexcavadora</option>
+                                <option value="Compactadora">Compactadora</option>
+                                <option value="Motoniveladora">Motoniveladora</option>
+                                <option value="Otro">Otro</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="modelo">Modelo:</label>
+                            <input type="text" id="modelo" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="serie">Serie:</label>
+                            <input type="text" id="serie" required>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="año">Año:</label>
+                            <input type="number" id="año" min="1900" max="2025" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="estado">Estado:</label>
+                            <select id="estado" required>
+                                <option value="">Seleccionar estado</option>
+                                <option value="Operativa">Operativa</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                                <option value="Reparación">Reparación</option>
+                                <option value="Fuera de Servicio">Fuera de Servicio</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="ubicacion">Ubicación:</label>
+                        <input type="text" id="ubicacion" placeholder="Ej: Obra Central - Sector A" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="cerrarModal()">Cancelar</button>
+                <button type="button" id="btnGuardar" class="btn-primary" onclick="guardarMaquinaria()">Guardar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmación para Eliminar -->
+    <div id="modalConfirmar" class="modal">
+        <div class="modal-content modal-small">
+            <div class="modal-header">
+                <h3>Confirmar Eliminación</h3>
+            </div>
+            <div class="modal-body">
+                <p id="mensajeConfirmacion">¿Estás seguro de que deseas eliminar esta maquinaria?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="cerrarModalConfirmar()">Cancelar</button>
+                <button type="button" class="btn-danger" onclick="confirmarEliminacion()">Eliminar</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+    <script src="google-apps-script.js"></script>
+    <script>
+        // Mostrar estado de conexión
+        function actualizarEstadoConexion() {
+            const estado = document.getElementById('estadoConexion');
+            if (navigator.onLine) {
+                estado.innerHTML = '🌐 <span class="online">Conectado</span>';
+            } else {
+                estado.innerHTML = '📱 <span class="offline">Sin conexión</span>';
+            }
+        }
+        
+        actualizarEstadoConexion();
+        setInterval(actualizarEstadoConexion, 5000);
+    </script>
+</body>
+</html>
